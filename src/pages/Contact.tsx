@@ -7,9 +7,11 @@ import userSix from '../images/user/user-06.png';
 import { useEffect } from 'react';
 import { fetchData } from '../store/reducers/contactReducer';
 import { AppDispatch } from '../store';
+import Sidepane from '../components/Sidepane';
 
 const Contact = () => {
   const count = useSelector((state: RootState) => state.contact.data.length);
+  const contacts = useSelector((state: RootState) => state.contact.data);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const Contact = () => {
   return (
     <>
       <Breadcrumb pageName="Contact" />
-
+      <Sidepane sidebarOpen={true} setSidebarOpen={true} data={contacts} />
       <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="relative z-20 h-35 md:h-65">
           <img
