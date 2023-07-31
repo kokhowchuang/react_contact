@@ -1,17 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { startTransition, useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../images/logo/logo.svg';
 import SidebarLinkGroup from './SidebarLinkGroup';
-import { IUser } from '../store/reducers/contactReducer';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../redux/store';
+import { CharacterState } from '../redux/features/contactSlice';
+import { useAppSelector } from '../redux/hook';
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
-  data: Array<IUser>;
+  setStatus: (arg: string) => void;
+  setGender: (arg: string) => void;
+  data: Array<CharacterState>;
 }
 
-const Sidepane = ({ sidebarOpen, setSidebarOpen, data }: SidebarProps) => {
+const Sidepane = ({
+  sidebarOpen,
+  setSidebarOpen,
+  setStatus,
+  setGender,
+  data,
+}: SidebarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
@@ -24,11 +35,6 @@ const Sidepane = ({ sidebarOpen, setSidebarOpen, data }: SidebarProps) => {
     storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
   );
 
-  const handleContactClick = (id: number) => {
-    navigate(`/contact/${id}`);
-  };
-
-  console.log(data);
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
@@ -64,10 +70,22 @@ const Sidepane = ({ sidebarOpen, setSidebarOpen, data }: SidebarProps) => {
     }
   }, [sidebarExpanded]);
 
+  const handleContactClick = (id: number) => {
+    navigate(`/contact/${id}`);
+  };
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setStatus(event.target.value);
+  };
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGender(event.target.value);
+  };
+
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`bg-gray-900 absolute right-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -100,30 +118,40 @@ const Sidepane = ({ sidebarOpen, setSidebarOpen, data }: SidebarProps) => {
         </button>
       </div>
       {/* <!-- SIDEBAR HEADER --> */}
-      <input
-        type="text"
-        placeholder="Default Input"
-        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-      />
+      <div className="p-4">
+        <input
+          type="text"
+          placeholder="Default Input"
+          className="w-full border-[1.5px] border-stroke bg-transparent px-2 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+        />
 
-      <div className="flex px-4">
-        <select className="relative z-20 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
-          <option value="">Alive</option>
-          <option value="">Dead</option>
-          <option value="">Unknown</option>
-        </select>
+        <div className="mt-3 flex">
+          <select
+            onChange={handleStatusChange}
+            className="relative z-20 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+          >
+            <option value=""></option>
+            <option value="alive">Alive</option>
+            <option value="dead">Dead</option>
+            <option value="unknown">Unknown</option>
+          </select>
 
-        <select className="relative z-20 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
-          <option value="">Male</option>
-          <option value="">Female</option>
-          <option value="">Genderless</option>
-          <option value="">Unknown</option>
-        </select>
+          <select
+            onChange={handleGenderChange}
+            className="relative z-20 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+          >
+            <option value=""></option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="genderless">Genderless</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
       </div>
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
-        <nav className="mt-5 px-0 py-4 lg:mt-9">
+        <nav className="">
           {/* <!-- Menu Group --> */}
           <div>
             <ul className="mb-6 flex flex-col gap-1.5">
@@ -151,4 +179,4 @@ const Sidepane = ({ sidebarOpen, setSidebarOpen, data }: SidebarProps) => {
   );
 };
 
-export default Sidepane;
+export default React.memo(Sidepane);

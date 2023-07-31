@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 
-import store from './store';
+import { store } from './redux/store';
 import ECommerce from './pages/Dashboard/ECommerce';
 import Loader from './common/Loader';
 import routes from './routes';
@@ -33,6 +33,7 @@ function App() {
             <Route index element={<ECommerce />} />
             {routes.map(({ path, component: Component }) => (
               <Route
+                key={path}
                 path={path}
                 element={
                   <Suspense fallback={<Loader />}>
