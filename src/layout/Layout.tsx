@@ -30,9 +30,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         setSidebarOpen={setSidebarOpen}
         setStatus={setStatus}
         setGender={setGender}
+        setName={setName}
         data={data?.results ?? []}
       />
-      <div>{children}</div>
+      <div className="bg-white">{children}</div>
     </div>
   );
 };

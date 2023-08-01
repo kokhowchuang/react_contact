@@ -1,18 +1,14 @@
-import React, { startTransition, useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import Logo from '../images/logo/logo.svg';
-import SidebarLinkGroup from './SidebarLinkGroup';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../redux/store';
 import { CharacterState } from '../redux/features/contactSlice';
-import { useAppSelector } from '../redux/hook';
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
   setStatus: (arg: string) => void;
   setGender: (arg: string) => void;
+  setName: (arg: string) => void;
   data: Array<CharacterState>;
 }
 
@@ -21,6 +17,7 @@ const Sidepane = ({
   setSidebarOpen,
   setStatus,
   setGender,
+  setName,
   data,
 }: SidebarProps) => {
   const navigate = useNavigate();
@@ -82,6 +79,12 @@ const Sidepane = ({
     setGender(event.target.value);
   };
 
+  const handleNameChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      setName(event.currentTarget.value);
+    }
+  };
+
   return (
     <aside
       ref={sidebar}
@@ -90,11 +93,8 @@ const Sidepane = ({
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink to="/">
-          <img src={Logo} alt="Logo" />
-        </NavLink>
-
+      <div className="flex items-center justify-between gap-2 px-6 py-5.5 pb-0 lg:py-6.5 lg:pb-0">
+        <div className="text-2xl font-extrabold">Contacts</div>
         <button
           ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -121,16 +121,17 @@ const Sidepane = ({
       <div className="p-4">
         <input
           type="text"
-          placeholder="Default Input"
+          placeholder="Search characters"
+          onKeyDown={handleNameChange}
           className="w-full border-[1.5px] border-stroke bg-transparent px-2 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
         />
 
         <div className="mt-3 flex">
           <select
             onChange={handleStatusChange}
-            className="relative z-20 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+            className="relative z-20 mr-2 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
           >
-            <option value=""></option>
+            <option value="">Status</option>
             <option value="alive">Alive</option>
             <option value="dead">Dead</option>
             <option value="unknown">Unknown</option>
@@ -140,7 +141,7 @@ const Sidepane = ({
             onChange={handleGenderChange}
             className="relative z-20 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
           >
-            <option value=""></option>
+            <option value="">Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="genderless">Genderless</option>
@@ -156,7 +157,11 @@ const Sidepane = ({
           <div>
             <ul className="mb-6 flex flex-col gap-1.5">
               {data.map((item, index) => (
-                <li key={item.id} onClick={() => handleContactClick(item.id)}>
+                <li
+                  className="cursor-pointer"
+                  key={item.id}
+                  onClick={() => handleContactClick(item.id)}
+                >
                   <div className="flex items-center gap-3 px-6 py-5">
                     <div className="h-10 w-10 rounded-full">
                       <img src={item.image} alt="User" />

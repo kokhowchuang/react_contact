@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import { Outlet } from 'react-router-dom';
-import Sidepane from '../components/Sidepane';
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -17,10 +15,6 @@ const DefaultLayout = () => {
 
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-          {/* <!-- ===== Header Start ===== --> */}
-          {/* <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
-          {/* <!-- ===== Header End ===== --> */}
-
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
             <div className="mx-auto max-w-screen-2xl">

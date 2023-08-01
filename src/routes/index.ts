@@ -1,11 +1,7 @@
 import { lazy } from 'react';
 
-const FormElements = lazy(() => import('../pages/Form/FormElements'));
-const FormLayout = lazy(() => import('../pages/Form/FormLayout'));
 const Contact = lazy(() => import('../pages/Contact'));
 const ContactDetail = lazy(() => import('../pages/ContactDetail'));
-const Alerts = lazy(() => import('../pages/UiElements/Alerts'));
-const Buttons = lazy(() => import('../pages/UiElements/Buttons'));
 
 const coreRoutes = [
   {
@@ -17,26 +13,6 @@ const coreRoutes = [
     path: '/contact/:id',
     title: 'ContactDetail',
     component: ContactDetail,
-  },
-  {
-    path: '/forms/form-elements',
-    title: 'Forms Elements',
-    component: FormElements,
-  },
-  {
-    path: '/forms/form-layout',
-    title: 'Form Layouts',
-    component: FormLayout,
-  },
-  {
-    path: '/ui/alerts',
-    title: 'Alerts',
-    component: Alerts,
-  },
-  {
-    path: '/ui/buttons',
-    title: 'Buttons',
-    component: Buttons,
   },
 ];
 

@@ -4,9 +4,9 @@ import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 
 import { store } from './redux/store';
-import ECommerce from './pages/Dashboard/ECommerce';
 import Loader from './common/Loader';
 import routes from './routes';
+import Dashboard from './pages/Dashboard';
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 
@@ -30,7 +30,7 @@ function App() {
 
         <Routes>
           <Route element={<DefaultLayout />}>
-            <Route index element={<ECommerce />} />
+            <Route index element={<Dashboard />} />
             {routes.map(({ path, component: Component }) => (
               <Route
                 key={path}

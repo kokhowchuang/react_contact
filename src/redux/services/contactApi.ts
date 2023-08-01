@@ -7,7 +7,7 @@ import {
   CharacterState,
   ContactState,
   EpisodeState,
-} from '../../redux/features/contactSlice';
+} from '../features/contactSlice';
 
 export const contactApi = createApi({
   reducerPath: 'contactApi',
@@ -36,6 +36,9 @@ export const contactApi = createApi({
         }
         if (arg.gender) {
           query.push('gender=' + arg.gender);
+        }
+        if (arg.name) {
+          query.push('name=' + arg.name);
         }
 
         const queryString = query.length > 0 ? '/?' + query.join('&') : '';
@@ -68,7 +71,7 @@ export const contactApi = createApi({
         });
 
         const episodeResult = await baseQuery(
-          `/episode/${episodeList.join(',')}`
+          `/episode/[${episodeList.join(',')}]`
         );
 
         character.episode = episodeResult.data as EpisodeState[];
