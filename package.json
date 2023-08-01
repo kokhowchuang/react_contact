@@ -1,5 +1,5 @@
 {
-  "name": "tailadmin-react-free",
+  "name": "sleekflow-frontend-task",
   "private": true,
   "version": "1.0.5",
   "type": "module",
@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "author": {
-    "name": "TailAdmin",
-    "email": "hello@tailadmin.com",
-    "url": "https://tailadmin.com"
+    "name": "Josh Chuang",
+    "email": "joshxchuang@gmail.com",
+    "url": "https://www.linkedin.com/in/josh-chuang-50a05b251/"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",

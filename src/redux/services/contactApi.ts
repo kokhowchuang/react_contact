@@ -74,7 +74,7 @@ export const contactApi = createApi({
           `/episode/[${episodeList.join(',')}]`
         );
 
-        character.episode = episodeResult.data as EpisodeState[];
+        character.episode_info = episodeResult.data as EpisodeState[];
 
         return { data: result.data as CharacterState };
       },

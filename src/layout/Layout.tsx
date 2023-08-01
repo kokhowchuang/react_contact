@@ -25,15 +25,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="flex">
-      <Sidepane
-        sidebarOpen={true}
-        setSidebarOpen={setSidebarOpen}
-        setStatus={setStatus}
-        setGender={setGender}
-        setName={setName}
-        data={data?.results ?? []}
-      />
-      <div className="bg-white">{children}</div>
+      <div className="w-[20rem] flex-none">
+        <Sidepane
+          sidebarOpen={true}
+          setSidebarOpen={setSidebarOpen}
+          setStatus={setStatus}
+          setGender={setGender}
+          setName={setName}
+          gender={gender}
+          status={status}
+          data={data?.results ?? []}
+        />
+      </div>
+      <div className="w-auto grow bg-white">{children}</div>
     </div>
   );
 };

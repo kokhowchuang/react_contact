@@ -9,6 +9,8 @@ interface SidebarProps {
   setStatus: (arg: string) => void;
   setGender: (arg: string) => void;
   setName: (arg: string) => void;
+  status: string;
+  gender: string;
   data: Array<CharacterState>;
 }
 
@@ -18,11 +20,12 @@ const Sidepane = ({
   setStatus,
   setGender,
   setName,
+  status,
+  gender,
   data,
 }: SidebarProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { pathname } = location;
+  const [hasFilter, setHasFilter] = useState(false);
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -72,10 +75,12 @@ const Sidepane = ({
   };
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setHasFilter(true);
     setStatus(event.target.value);
   };
 
   const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setHasFilter(true);
     setGender(event.target.value);
   };
 
@@ -85,10 +90,16 @@ const Sidepane = ({
     }
   };
 
+  const clearFilter = () => {
+    setHasFilter(false);
+    setStatus('');
+    setGender('');
+  };
+
   return (
     <aside
       ref={sidebar}
-      className={`bg-gray-900 absolute right-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`bg-gray-900 absolute relative right-0 top-0 z-9999 flex h-screen w-full flex-col overflow-y-hidden duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -128,6 +139,7 @@ const Sidepane = ({
 
         <div className="mt-3 flex">
           <select
+            value={status}
             onChange={handleStatusChange}
             className="relative z-20 mr-2 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
           >
@@ -138,6 +150,7 @@ const Sidepane = ({
           </select>
 
           <select
+            value={gender}
             onChange={handleGenderChange}
             className="relative z-20 appearance-none border border-stroke bg-transparent px-4 py-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
           >
@@ -147,6 +160,15 @@ const Sidepane = ({
             <option value="genderless">Genderless</option>
             <option value="unknown">Unknown</option>
           </select>
+
+          {hasFilter && (
+            <button
+              onClick={clearFilter}
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 inline-flex items-center rounded px-4 py-2 font-bold"
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
 

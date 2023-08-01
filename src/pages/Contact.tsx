@@ -3,11 +3,9 @@ import CharacterDetail from '../components/CharacterDetail';
 
 const Contact = () => {
   return (
-    <>
-      <Layout>
-        <CharacterDetail />
-      </Layout>
-    </>
+    <Layout>
+      <CharacterDetail />
+    </Layout>
   );
 };
 

@@ -38,7 +38,8 @@ export interface CharacterState {
   origin: OriginState;
   location: LocationState;
   image: string;
-  episode: Array<string> | Array<EpisodeState>;
+  episode: string[];
+  episode_info: Array<EpisodeState>;
   url: string;
   created: string;
 }
@@ -82,14 +83,12 @@ const contactSlice = createSlice({
     builder.addMatcher(
       contactApi.endpoints.getCharacters.matchFulfilled,
       (state, { payload }) => {
-        console.log(payload);
         state.results = payload.results;
       }
     );
     builder.addMatcher(
       contactApi.endpoints.getSingleCharacter.matchFulfilled,
       (state, { payload }) => {
-        console.log(payload);
         state.selectedCharacter = payload;
       }
     );
